@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.4.3)
 
 # Use old version of target_sources command which converts the source
 # file paths to full paths.
-cmake_policy(SET CMP0076 OLD)
+if(POLICY CMP0076)
+  cmake_policy(SET CMP0076 OLD)
+endif()
 list(APPEND CMAKE_MODULE_PATH  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 # The top-level source directory of libc.
