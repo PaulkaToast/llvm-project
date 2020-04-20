@@ -48,7 +48,7 @@ function(compute_flags output_var)
   # Generate the compiler flags in `current`.
   if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang|GNU")
     if(COMPUTE_FLAGS_MARCH)
-      list(APPEND current "-march=${COMPUTE_FLAGS_MARCH}")
+      #list(APPEND current "-march=${COMPUTE_FLAGS_MARCH}")
     endif()
     foreach(feature IN LISTS COMPUTE_FLAGS_REQUIRE)
       string(TOLOWER ${feature} lowercase_feature)
@@ -126,4 +126,16 @@ function(_check_defined_cpu_feature output_var)
 endfunction()
 
 # Populates the HOST_CPU_FEATURES list.
-_check_defined_cpu_feature(HOST_CPU_FEATURES MARCH native)
+check_cxx_compiler_flag("-march=native" SUPPORTS_MARCH_NATIVE)
+if(SUPPORTS_MARCH_NATIVE)
+  _check_defined_cpu_feature(HOST_CPU_FEATURES MARCH native)
+elseif(NOT HOST_CPU_FEATURES)
+  message(STATUS "Using passed in HOST_CPU_FEATURES: ${HOST_CPU_FEATURES}")
+else()
+  message(WARNING "
+  The current compiler doesn't support -march=native. Cannot automatically
+  detect suported CPU features.
+
+  To enable cpu features pass the cpu features to HOST_CPU_FEATURES.
+  (pass -DHOST_CPU_FEATURES=... to cmake).")
+endif()

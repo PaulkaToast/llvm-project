@@ -14,12 +14,19 @@
 
 #include "include/signal.h"
 
+#ifdef _NSIG
+#ifndef NSIG
+#define NSIG _NSIG
+#endif
+#endif
+
 static_assert(sizeof(sigset_t) * 8 >= NSIG, "sigset_t cannot hold all signals");
 
 namespace __llvm_libc {
 
 // Using this internally defined type will make it easier in the future to port
 // to different architectures.
+typedef unsigned long sigset_t;
 struct Sigset {
   sigset_t nativeSigset;
 
