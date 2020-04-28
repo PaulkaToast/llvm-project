@@ -78,6 +78,10 @@ function(add_entrypoint_library target_name)
     ALL
     DEPENDS ${library_file}
   )
+  set_target_properties(
+    ${target_name} 
+    PROPERTIES LIBRARY_FILE ${library_file}
+  )
 endfunction(add_entrypoint_library)
 
 # Rule to build a shared library of redirector objects.

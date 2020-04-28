@@ -11,6 +11,17 @@ add_libc_unittest(
   DEPENDS
     libc.src.string.strcat
 )
+add_libc_integration_test(
+  strcat_integration_test
+  SUITE
+    libc_string_unittests
+  SRCS
+    strcat_integration_test.c
+  HDRS
+    libc.include.string
+  LIB
+    llvmlibc
+)
 
 add_libc_unittest(
   strcpy_test
@@ -20,6 +31,17 @@ add_libc_unittest(
     strcpy_test.cpp
   DEPENDS
     libc.src.string.strcpy
+)
+add_libc_integration_test(
+  strcpy_integration_test
+  SUITE
+    libc_string_unittests
+  SRCS
+    strcpy_integration_test.c
+  HDRS
+    libc.include.string
+  LIB
+    llvmlibc
 )
 
 add_libc_unittest(
@@ -31,6 +53,18 @@ add_libc_unittest(
   DEPENDS
     libc.src.string.strlen
 )
+add_libc_integration_test(
+  strlen_integration_test
+  SUITE
+    libc_string_unittests
+  SRCS
+    strlen_integration_test.c
+  HDRS
+    libc.include.string
+  LIB
+    llvmlibc
+)
+
 
 # Tests all implementations of memcpy that can run on the host.
 get_property(memcpy_implementations GLOBAL PROPERTY memcpy_implementations)
@@ -52,3 +86,14 @@ foreach(memcpy_config_name IN LISTS memcpy_implementations)
   endif()
 endforeach()
 
+add_libc_integration_test(
+  memcpy_integration_test
+  SUITE
+    libc_string_unittests
+  SRCS
+    memcpy_integration_test.c
+  HDRS
+    libc.include.string
+  LIB
+    llvmlibc
+)
